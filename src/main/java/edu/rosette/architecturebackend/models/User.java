@@ -26,11 +26,9 @@ public class User {
     @Column(nullable = false)
     String surname;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false, unique = true)
     String username;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     String password;
 

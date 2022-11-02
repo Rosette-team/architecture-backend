@@ -1,14 +1,11 @@
 package edu.rosette.architecturebackend.controllers;
 
+import edu.rosette.architecturebackend.datatransfer.PatientDto;
 import edu.rosette.architecturebackend.models.Patient;
-import edu.rosette.architecturebackend.models.UserRole;
 import edu.rosette.architecturebackend.services.PatientService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,26 +18,23 @@ public class PatientController {
     private final PatientService patientService;
 
     @PostMapping
-    public ResponseEntity<?> addPatient(@RequestBody Patient patient) {
-        var patientId = patientService.addPatient(patient);
+    public ResponseEntity<?> addPatient(@RequestBody PatientDto patientDto) {
+        var patientId = patientService.addPatient(patientDto);
         return new ResponseEntity<>(patientId, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<?> getPatient(@PathVariable long id) {
-        var securityContext = SecurityContextHolder.getContext();
-        var test = securityContext.getAuthentication();
-
-        var patient = patientService.getPatient(id);
-        if (patient.isPresent()) {
-            return new ResponseEntity<>(patient.get(), HttpStatus.OK);
+        var patientDto = patientService.getPatient(id);
+        if (patientDto.isPresent()) {
+            return new ResponseEntity<>(patientDto.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping
-    public ResponseEntity<?> updatePatient(@PathVariable long id, @RequestBody Patient patientDto) {
+    public ResponseEntity<?> updatePatient(@PathVariable long id, @RequestBody PatientDto patientDto) {
         var patient = patientService.updatePatient(id, patientDto);
         if (patient.isPresent()) {
             return new ResponseEntity<>(patient.get(), HttpStatus.OK);

@@ -17,7 +17,10 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/patient*")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

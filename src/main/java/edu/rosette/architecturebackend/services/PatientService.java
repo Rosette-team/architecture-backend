@@ -1,6 +1,7 @@
 package edu.rosette.architecturebackend.services;
 
-import edu.rosette.architecturebackend.models.Patient;
+import edu.rosette.architecturebackend.datatransfer.PatientDto;
+import edu.rosette.architecturebackend.mappers.PatientMapper;
 import edu.rosette.architecturebackend.repositories.PatientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,20 +13,28 @@ import java.util.Optional;
 public class PatientService {
     private final PatientRepository patientRepository;
 
-    public long addPatient(Patient patient) {
+    private final PatientMapper patientMapper;
+
+    public long addPatient(PatientDto patientDto) {
+        var patient = patientMapper.patientDtoToPatient(patientDto);
         return patientRepository.save(patient).getId();
     }
 
-    public Optional<Patient> getPatient(long id) {
-        return patientRepository.findById(id);
-    }
-
-    public Optional<Patient> updatePatient(long id, Patient patientDto) {
+    public Optional<PatientDto> getPatient(long id) {
         var patient = patientRepository.findById(id);
         if (patient.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(patientRepository.save(patient.get()));
+        return Optional.of(patientMapper.patientToPatientDto(patient.get()));
+    }
+
+    public Optional<PatientDto> updatePatient(long id, PatientDto patientDto) {
+        var patient = patientRepository.findById(id);
+        if (patient.isEmpty()) {
+            return Optional.empty();
+        }
+        var updatedPatient = patientMapper.updatePatientFromPatientDto(patientDto, patient.get());
+        return Optional.of(patientMapper.patientToPatientDto(patientRepository.save(updatedPatient)));
     }
 
     public void deletePatient(long id) {
