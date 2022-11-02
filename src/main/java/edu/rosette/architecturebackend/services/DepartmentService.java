@@ -2,7 +2,6 @@ package edu.rosette.architecturebackend.services;
 
 import edu.rosette.architecturebackend.datatransfer.DepartmentDto;
 import edu.rosette.architecturebackend.mappers.DepartmentMapper;
-import edu.rosette.architecturebackend.models.Department;
 import edu.rosette.architecturebackend.repositories.DepartmentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

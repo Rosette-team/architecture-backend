@@ -1,6 +1,6 @@
 package edu.rosette.architecturebackend.controllers;
 
-import edu.rosette.architecturebackend.models.Appointment;
+import edu.rosette.architecturebackend.datatransfer.AppointmentDto;
 import edu.rosette.architecturebackend.services.AppointmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addAppointment(@RequestBody Appointment appointment) {
+    public ResponseEntity<?> addAppointment(@RequestBody AppointmentDto appointment) {
         var appointmentId = appointmentService.addAppointment(appointment);
         return new ResponseEntity<>(appointmentId, HttpStatus.OK);
     }
@@ -33,7 +33,7 @@ public class AppointmentController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> updateAppointment(@PathVariable long id, @RequestBody Appointment appointmentDto) {
+    public ResponseEntity<?> updateAppointment(@PathVariable long id, @RequestBody AppointmentDto appointmentDto) {
         var appointment = appointmentService.updateAppointment(id, appointmentDto);
         if (appointment.isPresent()) {
             return new ResponseEntity<>(appointment.get(), HttpStatus.OK);
