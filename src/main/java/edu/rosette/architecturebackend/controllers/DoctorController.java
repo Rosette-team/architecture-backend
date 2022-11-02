@@ -1,5 +1,6 @@
 package edu.rosette.architecturebackend.controllers;
 
+import edu.rosette.architecturebackend.datatransfer.DoctorDto;
 import edu.rosette.architecturebackend.models.Doctor;
 import edu.rosette.architecturebackend.services.DoctorService;
 import lombok.AllArgsConstructor;
@@ -16,23 +17,23 @@ public class DoctorController {
     private final DoctorService doctorService;
 
     @PostMapping
-    public ResponseEntity<?> addDoctor(@RequestBody Doctor doctor) {
-        var doctorId = doctorService.addDoctor(doctor);
+    public ResponseEntity<?> addDoctor(@RequestBody DoctorDto doctorDto) {
+        var doctorId = doctorService.addDoctor(doctorDto);
         return new ResponseEntity<>(doctorId, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<?> getDoctor(@PathVariable long id) {
-        var doctor = doctorService.getDoctor(id);
-        if (doctor.isPresent()) {
-            return new ResponseEntity<>(doctor.get(), HttpStatus.OK);
+        var doctorDto = doctorService.getDoctor(id);
+        if (doctorDto.isPresent()) {
+            return new ResponseEntity<>(doctorDto.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateDoctor(@PathVariable long id, @RequestBody Doctor doctorDto) {
+    @PutMapping("{id}")
+    public ResponseEntity<?> updateDoctor(@PathVariable long id, @RequestBody DoctorDto doctorDto) {
         var doctor = doctorService.updateDoctor(id, doctorDto);
         if (doctor.isPresent()) {
             return new ResponseEntity<>(doctor.get(), HttpStatus.OK);

@@ -1,5 +1,7 @@
 package edu.rosette.architecturebackend.services;
 
+import edu.rosette.architecturebackend.datatransfer.DoctorDto;
+import edu.rosette.architecturebackend.mappers.DoctorMapper;
 import edu.rosette.architecturebackend.models.Doctor;
 import edu.rosette.architecturebackend.repositories.DoctorRepository;
 import lombok.AllArgsConstructor;
@@ -12,20 +14,28 @@ import java.util.Optional;
 public class DoctorService {
     DoctorRepository doctorRepository;
 
-    public long addDoctor(Doctor doctor) {
+    DoctorMapper doctorMapper;
+
+    public long addDoctor(DoctorDto doctorDto) {
+        var doctor = doctorMapper.doctorDtoToDoctor(doctorDto);
         return doctorRepository.save(doctor).getId();
     }
 
-    public Optional<Doctor> getDoctor(long id) {
-        return doctorRepository.findById(id);
+    public Optional<DoctorDto> getDoctor(long id) {
+        var doctor =  doctorRepository.findById(id);
+        if (doctor.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(doctorMapper.doctorToDoctorDto(doctor.get()));
     }
 
-    public Optional<Doctor> updateDoctor(long id, Doctor doctorDto) {
+    public Optional<DoctorDto> updateDoctor(long id, DoctorDto doctorDto) {
         var doctor = doctorRepository.findById(id);
         if (doctor.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(doctorRepository.save(doctor.get()));
+        var updatedDoctor = doctorMapper.updateDoctorFromDoctorDto(doctorDto, doctor.get());
+        return Optional.of(doctorMapper.doctorToDoctorDto(doctorRepository.save(updatedDoctor)));
     }
 
     public void deleteDoctor(long id) {

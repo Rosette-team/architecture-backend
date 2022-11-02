@@ -31,7 +31,7 @@ public class ManagerController {
         }
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     public ResponseEntity<?> updateManager(@PathVariable long id, @RequestBody Manager managerDto) {
         var manager = managerService.updateManager(id, managerDto);
         if (manager.isPresent()) {

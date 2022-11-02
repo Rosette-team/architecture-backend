@@ -1,6 +1,6 @@
 package edu.rosette.architecturebackend.controllers;
 
-import edu.rosette.architecturebackend.models.Department;
+import edu.rosette.architecturebackend.datatransfer.DepartmentDto;
 import edu.rosette.architecturebackend.services.DepartmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +17,8 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addDepartment(@RequestBody Department department) {
-        var departmentId = departmentService.addDepartment(department);
+    public ResponseEntity<?> addDepartment(@RequestBody DepartmentDto departmentDto) {
+        var departmentId = departmentService.addDepartment(departmentDto);
         return new ResponseEntity<>(departmentId, HttpStatus.OK);
     }
 
@@ -33,7 +33,7 @@ public class DepartmentController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> updateDepartment(@PathVariable long id, @RequestBody Department departmentDto) {
+    public ResponseEntity<?> updateDepartment(@PathVariable long id, @RequestBody DepartmentDto departmentDto) {
         var department = departmentService.updateDepartment(id, departmentDto);
         if (department.isPresent()) {
             return new ResponseEntity<>(HttpStatus.OK);
