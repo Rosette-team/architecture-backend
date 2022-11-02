@@ -18,7 +18,9 @@ public class Appointment {
     User patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    Employee doctor;
+    Doctor doctor;
 
     Boolean online;
+
+    String consultationLink;
 }

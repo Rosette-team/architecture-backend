@@ -1,7 +1,6 @@
 package edu.rosette.architecturebackend.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="role", discriminatorType = DiscriminatorType.INTEGER)
 @Table(name = "users")
 public class User {
     @Id
@@ -34,14 +34,6 @@ public class User {
     @Column(nullable = false)
     String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, insertable = false, updatable = false)
     UserRole role;
-
-    public User(String name, String surname, String username, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.username = username;
-        this.password = password;
-        this.role = UserRole.PATIENT;
-    }
 }
