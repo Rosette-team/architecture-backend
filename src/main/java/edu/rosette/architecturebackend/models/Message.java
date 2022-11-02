@@ -1,33 +1,32 @@
 package edu.rosette.architecturebackend.models;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "appointments")
 @Getter
 @Setter
-public class Appointment {
+@Entity
+@Table(name = "messages")
+public class Message {
     @Id
     @GeneratedValue
     Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    Patient patient;
+    User sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    Doctor doctor;
+    User receiver;
 
-    @Column(nullable = false)
+    @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     Date date;
 
-    @Column(nullable = false)
-    Boolean online;
-
-    @Column(nullable = true)
-    String consultationLink;
+    @NotNull
+    String text;
 }

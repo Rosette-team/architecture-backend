@@ -6,28 +6,26 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "appointments")
+@Entity()
+@Table(name = "working_windows")
 @Getter
 @Setter
-public class Appointment {
+public class WorkingWindow {
     @Id
     @GeneratedValue
     Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
     Doctor doctor;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    Date date;
+    Date beginDate;
 
     @Column(nullable = false)
-    Boolean online;
+    @Temporal(TemporalType.TIMESTAMP)
+    Date endDate;
 
-    @Column(nullable = true)
-    String consultationLink;
+    @Column(nullable = false)
+    String periodicity;
 }
