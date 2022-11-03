@@ -1,6 +1,6 @@
 package edu.rosette.architecturebackend.controllers;
 
-import edu.rosette.architecturebackend.models.Message;
+import edu.rosette.architecturebackend.datatransfer.MessageDto;
 import edu.rosette.architecturebackend.services.MessageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,8 +15,8 @@ public class MessageController {
     private final MessageService messageService;
 
     @PostMapping
-    public ResponseEntity<?> addMessage(@RequestBody Message message) {
-        messageService.addMessage(message);
+    public ResponseEntity<?> addMessage(@RequestBody MessageDto messageDto) {
+        messageService.addMessage(messageDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

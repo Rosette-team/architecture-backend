@@ -1,7 +1,6 @@
 package edu.rosette.architecturebackend.controllers;
 
 import edu.rosette.architecturebackend.datatransfer.DoctorDto;
-import edu.rosette.architecturebackend.models.Doctor;
 import edu.rosette.architecturebackend.services.DoctorService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,7 +41,7 @@ public class DoctorController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     public ResponseEntity<?> deleteDoctor(@PathVariable long id) {
         doctorService.deleteDoctor(id);
         return new ResponseEntity<>(HttpStatus.OK);

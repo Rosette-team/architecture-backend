@@ -1,6 +1,6 @@
 package edu.rosette.architecturebackend.controllers;
 
-import edu.rosette.architecturebackend.models.WorkingWindow;
+import edu.rosette.architecturebackend.datatransfer.WorkingWindowDto;
 import edu.rosette.architecturebackend.services.WorkingWindowService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,8 +17,8 @@ public class WorkingWindowController {
     private final WorkingWindowService workingWindowService;
 
     @PostMapping
-    public ResponseEntity<?> addWorkingWindow(@RequestBody WorkingWindow workingWindow) {
-        var workingWindowId = workingWindowService.addWorkingWindow(workingWindow);
+    public ResponseEntity<?> addWorkingWindow(@RequestBody WorkingWindowDto workingWindowDto) {
+        var workingWindowId = workingWindowService.addWorkingWindow(workingWindowDto);
         return new ResponseEntity<>(workingWindowId, HttpStatus.OK);
     }
 
@@ -35,8 +35,8 @@ public class WorkingWindowController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateWorkingWindow(@PathVariable long id, @RequestBody WorkingWindow workingWindowDto) {
+    @PutMapping("{id}")
+    public ResponseEntity<?> updateWorkingWindow(@PathVariable long id, @RequestBody WorkingWindowDto workingWindowDto) {
         var workingWindow = workingWindowService.updateWorkingWindow(id, workingWindowDto);
         if (workingWindow.isPresent()) {
             return new ResponseEntity<>(workingWindow.get(), HttpStatus.OK);
@@ -45,7 +45,7 @@ public class WorkingWindowController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     public ResponseEntity<?> deleteWorkingWindow(@PathVariable long id) {
         workingWindowService.deleteWorkingWindow(id);
         return new ResponseEntity<>(HttpStatus.OK);

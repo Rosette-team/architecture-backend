@@ -1,6 +1,7 @@
 package edu.rosette.architecturebackend.services;
 
-import edu.rosette.architecturebackend.models.WorkingWindow;
+import edu.rosette.architecturebackend.datatransfer.WorkingWindowDto;
+import edu.rosette.architecturebackend.mappers.WorkingWindowMapper;
 import edu.rosette.architecturebackend.repositories.WorkingWindowRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,20 +13,28 @@ import java.util.Optional;
 public class WorkingWindowService {
     WorkingWindowRepository workingWindowRepository;
 
-    public long addWorkingWindow(WorkingWindow workingWindow) {
+    WorkingWindowMapper workingWindowMapper;
+
+    public long addWorkingWindow(WorkingWindowDto workingWindowDto) {
+        var workingWindow = workingWindowMapper.workingWindowDtoToWorkingWindow(workingWindowDto);
         return workingWindowRepository.save(workingWindow).getId();
     }
 
-    public Optional<WorkingWindow> getWorkingWindow(long id) {
-        return workingWindowRepository.findById(id);
+    public Optional<WorkingWindowDto> getWorkingWindow(long id) {
+        var workingWindow =  workingWindowRepository.findById(id);
+        if (workingWindow.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(workingWindowMapper.workingWindowToWorkingWindowDto(workingWindow.get()));
     }
 
-    public Optional<WorkingWindow> updateWorkingWindow(long id, WorkingWindow workingWindowDto) {
+    public Optional<WorkingWindowDto> updateWorkingWindow(long id, WorkingWindowDto workingWindowDto) {
         var workingWindow = workingWindowRepository.findById(id);
         if (workingWindow.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(workingWindowRepository.save(workingWindow.get()));
+        var updatedWorkingWindow = workingWindowMapper.updateWorkingWindowFromWorkingWindowDto(workingWindowDto, workingWindow.get());
+        return Optional.of(workingWindowMapper.workingWindowToWorkingWindowDto(workingWindowRepository.save(updatedWorkingWindow)));
     }
 
     public void deleteWorkingWindow(long id) {

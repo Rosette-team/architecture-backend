@@ -1,17 +1,17 @@
 package edu.rosette.architecturebackend.datatransfer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.rosette.architecturebackend.models.Doctor;
+import edu.rosette.architecturebackend.models.Manager;
 import edu.rosette.architecturebackend.models.UserRole;
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * A DTO for the {@link Doctor} entity
+ * A DTO for the {@link Manager} entity
  */
 @Data
-public class DoctorDto implements Serializable {
+public class ManagerDto implements Serializable {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private final Long id;
     private final String name;

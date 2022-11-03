@@ -20,6 +20,6 @@ public class PatientDto implements Serializable {
     private final String username;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private final String password;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private final UserRole role;
 }

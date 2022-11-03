@@ -33,7 +33,7 @@ public class PatientController {
         }
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     public ResponseEntity<?> updatePatient(@PathVariable long id, @RequestBody PatientDto patientDto) {
         var patient = patientService.updatePatient(id, patientDto);
         if (patient.isPresent()) {
@@ -43,7 +43,7 @@ public class PatientController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     public ResponseEntity<?> deletePatient(@PathVariable long id) {
         patientService.deletePatient(id);
         return new ResponseEntity<>(HttpStatus.OK);
