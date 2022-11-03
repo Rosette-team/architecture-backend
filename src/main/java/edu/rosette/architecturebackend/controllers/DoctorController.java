@@ -31,6 +31,12 @@ public class DoctorController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<?> getDoctors(@RequestParam long departmentId) {
+        var doctors = doctorService.getDoctors(departmentId);
+        return new ResponseEntity<>(doctors, HttpStatus.OK);
+    }
+
     @PutMapping("{id}")
     public ResponseEntity<?> updateDoctor(@PathVariable long id, @RequestBody DoctorDto doctorDto) {
         var doctor = doctorService.updateDoctor(id, doctorDto);

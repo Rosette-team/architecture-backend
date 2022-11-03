@@ -23,4 +23,5 @@ public class DoctorDto implements Serializable {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private final UserRole role;
     private Long departmentId;
+    private final String speciality;
 }
