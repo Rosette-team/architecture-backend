@@ -15,6 +15,10 @@ public abstract class ManagerMapper {
 
     @AfterMapping
     protected void afterManagerDtoToManager(ManagerDto managerDto, @MappingTarget Manager manager) {
+        if (managerDto.getDepartmentId() == null) {
+            manager.setDepartment(null);
+            return;
+        }
         var department = departmentRepository.findById(managerDto.getDepartmentId());
         if (department.isEmpty()) {
             throw new RuntimeException("Try to assign department with id %d but it's not exits".formatted(managerDto.getDepartmentId()));

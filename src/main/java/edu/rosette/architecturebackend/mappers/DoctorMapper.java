@@ -14,6 +14,10 @@ public abstract class DoctorMapper {
 
     @AfterMapping
     protected void afterDoctorDtoToDoctor(DoctorDto doctorDto, @MappingTarget Doctor doctor) {
+        if (doctorDto.getDepartmentId() == null) {
+            doctor.setDepartment(null);
+            return;
+        }
         var department = departmentRepository.findById(doctorDto.getDepartmentId());
         if (department.isEmpty()) {
             throw new RuntimeException("Try to assign department with id %d but it's not exits".formatted(doctorDto.getDepartmentId()));
