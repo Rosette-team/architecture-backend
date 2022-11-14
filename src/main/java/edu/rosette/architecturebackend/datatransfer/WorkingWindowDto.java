@@ -5,6 +5,7 @@ import edu.rosette.architecturebackend.models.WorkingWindow;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.Date;
 
 /**
@@ -18,4 +19,5 @@ public class WorkingWindowDto implements Serializable {
     private final Date beginDate;
     private final Date endDate;
     private final String periodicity;
+    private final Duration duration;
 }
