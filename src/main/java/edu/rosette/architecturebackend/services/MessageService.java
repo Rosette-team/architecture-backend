@@ -24,13 +24,13 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    public List<MessageDto> getMessages(long receiverId) {
+    public List<MessageDto> getAllMessagesBetweenAuthenticatedUserAndCurrent(long receiverId) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         var sender = userRepository.findUserByUsername(authentication.getName()).orElseThrow();
         var receiver = userRepository.findById(receiverId);
         if (receiver.isEmpty()) {
             return new ArrayList<>();
         }
-        return messageRepository.findAllBySenderAndReceiver(sender, receiver.get()).stream().map(message -> messageMapper.messageToMessageDto(message)).toList();
+        return messageRepository.findAllBetweenUsers(sender, receiver.get()).stream().map(message -> messageMapper.messageToMessageDto(message)).toList();
     }
 }
