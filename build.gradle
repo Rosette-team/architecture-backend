@@ -28,7 +28,6 @@ dependencies {
     // https://mvnrepository.com/artifact/org.projectlombok/lombok-mapstruct-binding
     implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
-
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
@@ -36,6 +35,8 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    testImplementation 'com.h2database:h2:2.1.214'
 }
 
 tasks.named('test') {
