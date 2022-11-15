@@ -2,7 +2,6 @@ package edu.rosette.architecturebackend.unit.services;
 
 import edu.rosette.architecturebackend.datatransfer.AppointmentDto;
 import edu.rosette.architecturebackend.datatransfer.DoctorDto;
-import edu.rosette.architecturebackend.datatransfer.ManagerDto;
 import edu.rosette.architecturebackend.datatransfer.PatientDto;
 import edu.rosette.architecturebackend.mappers.AppointmentMapper;
 import edu.rosette.architecturebackend.mappers.DoctorMapper;

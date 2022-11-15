@@ -55,7 +55,7 @@ public class DoctorServiceTests {
 
         Assertions.assertEquals(result.getName(), doctorDto.getName());
         Assertions.assertEquals(result.getSurname(), doctorDto.getSurname());
-        Assertions.assertEquals(result.getUsername(), doctorDto.getPassword());
+        Assertions.assertEquals(result.getUsername(), doctorDto.getUsername());
         Assertions.assertEquals(result.getSpeciality(), doctorDto.getSpeciality());
     }
 
@@ -80,7 +80,7 @@ public class DoctorServiceTests {
 
         Assertions.assertEquals(result.getName(), newDoctorDto.getName());
         Assertions.assertEquals(result.getSurname(), newDoctorDto.getSurname());
-        Assertions.assertEquals(result.getUsername(), newDoctorDto.getPassword());
+        Assertions.assertEquals(result.getUsername(), newDoctorDto.getUsername());
         Assertions.assertEquals(result.getSpeciality(), newDoctorDto.getSpeciality());
     }
 

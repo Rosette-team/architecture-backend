@@ -22,7 +22,7 @@ public class MessageController {
 
     @GetMapping("{receiverId}")
     public ResponseEntity<?> getMessages(@PathVariable long receiverId) {
-        var messages = messageService.getAllMessagesBetweenAuthenticatedUserAndCurrent(receiverId);
+        var messages = messageService.getAllMessagesBetweenAuthenticatedUserAndUser(receiverId);
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 }

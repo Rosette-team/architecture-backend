@@ -19,18 +19,18 @@ public class MessageService {
     MessageMapper messageMapper;
     UserRepository userRepository;
 
-    public void addMessage(MessageDto messageDto) {
+    public long addMessage(MessageDto messageDto) {
         var message = messageMapper.messageDtoToMessage(messageDto);
-        messageRepository.save(message);
+        return messageRepository.save(message).getId();
     }
 
-    public List<MessageDto> getAllMessagesBetweenAuthenticatedUserAndCurrent(long receiverId) {
+    public List<MessageDto> getAllMessagesBetweenAuthenticatedUserAndUser(long userId) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var sender = userRepository.findUserByUsername(authentication.getName()).orElseThrow();
-        var receiver = userRepository.findById(receiverId);
-        if (receiver.isEmpty()) {
+        var authenticatedUser = userRepository.findUserByUsername(authentication.getName()).orElseThrow();
+        var user = userRepository.findById(userId);
+        if (user.isEmpty()) {
             return new ArrayList<>();
         }
-        return messageRepository.findAllBetweenUsers(sender, receiver.get()).stream().map(message -> messageMapper.messageToMessageDto(message)).toList();
+        return messageRepository.findAllBetweenUsers(authenticatedUser, user.get()).stream().map(message -> messageMapper.messageToMessageDto(message)).toList();
     }
 }
