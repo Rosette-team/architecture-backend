@@ -69,7 +69,6 @@ public class AppointmentServiceTests {
         var appointmentId = appointmentService.addAppointment(appointmentDto);
 
         Assertions.assertTrue(appointmentRepository.existsById(appointmentId));
-        Assertions.fail();
     }
 
     @Test

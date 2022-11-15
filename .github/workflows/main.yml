@@ -19,5 +19,5 @@ jobs:
           distribution: 'corretto'
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-      - name: Run build
+      - name: Run test
         run: gradle test
