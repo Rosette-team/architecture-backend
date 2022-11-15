@@ -23,7 +23,7 @@ public class ManagerServiceTests {
     ManagerRepository managerRepository;
 
     @AfterEach
-    void cleanDatabase() {
+    void clearDatabase() {
         managerRepository.deleteAll();
     }
 
@@ -31,7 +31,9 @@ public class ManagerServiceTests {
     void canAddManager() {
         var managerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER);
 
-        Assertions.assertDoesNotThrow(() -> managerService.addManager(managerDto));
+        var managerId = managerService.addManager(managerDto);
+
+        Assertions.assertTrue(managerRepository.existsById(managerId));
     }
 
     @Test
@@ -58,6 +60,17 @@ public class ManagerServiceTests {
 
     @Test
     void canUpdateManager() {
+        var oldManagerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER);
+        var newManagerDto = new ManagerDto(null, "newMame", "newSurname", "newUsername", "password", UserRole.ROLE_MANAGER);
+        var managerId = managerRepository.save(managerMapper.managerDtoToManager(oldManagerDto)).getId();
+
+        var result = managerService.updateManager(managerId, newManagerDto);
+
+        Assertions.assertTrue(result.isPresent());
+    }
+
+    @Test
+    void canUpdateManagerCorrectly() {
         var oldManagerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER);
         var newManagerDto = new ManagerDto(null, "newMame", "newSurname", "newUsername", "password", UserRole.ROLE_MANAGER);
         var managerId = managerRepository.save(managerMapper.managerDtoToManager(oldManagerDto)).getId();
