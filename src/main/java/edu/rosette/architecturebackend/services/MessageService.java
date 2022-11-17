@@ -31,6 +31,6 @@ public class MessageService {
         if (user.isEmpty()) {
             return new ArrayList<>();
         }
-        return messageRepository.findAllBetweenUsers(authenticatedUser, user.get()).stream().map(message -> messageMapper.messageToMessageDto(message)).toList();
+        return messageRepository.findAllBetweenUsers(authenticatedUser, user.get()).stream().map(messageMapper::messageToMessageDto).toList();
     }
 }

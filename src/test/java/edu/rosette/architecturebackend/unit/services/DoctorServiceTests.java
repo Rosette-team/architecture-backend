@@ -29,7 +29,7 @@ public class DoctorServiceTests {
 
     @Test
     void canAddDoctor() {
-        var doctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, "speciality");
+        var doctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, null,"speciality");
 
         var doctorId = doctorService.addDoctor(doctorDto);
 
@@ -38,7 +38,7 @@ public class DoctorServiceTests {
 
     @Test
     void canGetDoctor() {
-        var doctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, "speciality");
+        var doctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, null,"speciality");
         var doctorId = doctorRepository.save(doctorMapper.doctorDtoToDoctor(doctorDto)).getId();
 
         var result = doctorService.getDoctor(doctorId);
@@ -48,7 +48,7 @@ public class DoctorServiceTests {
 
     @Test
     void canGetExactDoctor() {
-        var doctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, "speciality");
+        var doctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, null,"speciality");
         var doctorId = doctorRepository.save(doctorMapper.doctorDtoToDoctor(doctorDto)).getId();
 
         var result = doctorService.getDoctor(doctorId).orElseThrow();
@@ -61,8 +61,8 @@ public class DoctorServiceTests {
 
     @Test
     void canUpdateDoctor() {
-        var oldDoctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, "speciality");
-        var newDoctorDto = new DoctorDto(null, "newName", "newSurname", "newDoctor", "password", UserRole.ROLE_DOCTOR, "newSpeciality");
+        var oldDoctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, null,"speciality");
+        var newDoctorDto = new DoctorDto(null, "newName", "newSurname", "newDoctor", "password", UserRole.ROLE_DOCTOR, null,"newSpeciality");
         var doctorId = doctorRepository.save(doctorMapper.doctorDtoToDoctor(oldDoctorDto)).getId();
 
         var result = doctorService.updateDoctor(doctorId, newDoctorDto);
@@ -72,8 +72,8 @@ public class DoctorServiceTests {
 
     @Test
     void canUpdateDoctorCorrectly() {
-        var oldDoctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, "speciality");
-        var newDoctorDto = new DoctorDto(null, "newName", "newSurname", "newDoctor", "password", UserRole.ROLE_DOCTOR, "newSpeciality");
+        var oldDoctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, null,"speciality");
+        var newDoctorDto = new DoctorDto(null, "newName", "newSurname", "newDoctor", "password", UserRole.ROLE_DOCTOR, null,"newSpeciality");
         var doctorId = doctorRepository.save(doctorMapper.doctorDtoToDoctor(oldDoctorDto)).getId();
 
         var result = doctorService.updateDoctor(doctorId, newDoctorDto).orElseThrow();
@@ -86,7 +86,7 @@ public class DoctorServiceTests {
 
     @Test
     void canDeleteDoctor() {
-        var doctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, "speciality");
+        var doctorDto = new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, null,"speciality");
         var doctorId = doctorRepository.save(doctorMapper.doctorDtoToDoctor(doctorDto)).getId();
 
         doctorService.deleteDoctor(doctorId);
