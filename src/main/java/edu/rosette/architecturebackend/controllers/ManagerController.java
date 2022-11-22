@@ -31,6 +31,12 @@ public class ManagerController {
         }
     }
 
+    @GetMapping("")
+    public ResponseEntity<?> getManagers() {
+        var managers = managerService.getManagers(null);
+        return new ResponseEntity<>(managers, HttpStatus.OK);
+    }
+
     @PutMapping("{id}")
     public ResponseEntity<?> updateManager(@PathVariable long id, @RequestBody ManagerDto managerDto) {
         var manager = managerService.updateManager(id, managerDto);

@@ -6,7 +6,9 @@ import edu.rosette.architecturebackend.repositories.ManagerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @AllArgsConstructor
 @Service
@@ -26,6 +28,16 @@ public class ManagerService {
             return Optional.empty();
         }
         return Optional.of(managerMapper.managerToManagerDto(manager.get()));
+    }
+
+    public List<ManagerDto> getManagers(Long departmentId) {
+        if (departmentId != null) {
+            var managers = managerRepository.findAllByDepartmentId(departmentId);
+            return managers.stream().map(doctor -> managerMapper.managerToManagerDto(doctor)).toList();
+        } else {
+            var doctors = managerRepository.findAll();
+            return StreamSupport.stream(doctors.spliterator(), false).map(doctor -> managerMapper.managerToManagerDto(doctor)).toList();
+        }
     }
 
     public Optional<ManagerDto> updateManager(long id, ManagerDto managerDto) {

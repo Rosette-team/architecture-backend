@@ -38,7 +38,6 @@ public class DoctorService {
             var doctors = doctorRepository.findAll();
             return StreamSupport.stream(doctors.spliterator(), false).map(doctor -> doctorMapper.doctorToDoctorDto(doctor)).toList();
         }
-
     }
 
     public Optional<DoctorDto> updateDoctor(long id, DoctorDto doctorDto) {

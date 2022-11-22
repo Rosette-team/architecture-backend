@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Objects;
+
 @SpringBootTest
 public class DepartmentServiceTests {
     @Autowired
@@ -53,6 +55,19 @@ public class DepartmentServiceTests {
         var result = departmentService.getDepartment(departmentId).orElseThrow();
 
         Assertions.assertEquals(result.getName(), departmentDto.getName());
+    }
+
+    @Test
+    void canGetExactDepartments() {
+        var departmentDto1 = new DepartmentDto(null, "department1");
+        var departmentDto2 = new DepartmentDto(null, "department2");
+        departmentRepository.save(departmentMapper.departmentDtoToDepartment(departmentDto1));
+        departmentRepository.save(departmentMapper.departmentDtoToDepartment(departmentDto2));
+
+        var departments = departmentService.getDepartments();
+
+        Assertions.assertTrue(departments.stream().anyMatch((departmentDto -> Objects.equals(departmentDto.getName(), departmentDto1.getName()))));
+        Assertions.assertTrue(departments.stream().anyMatch((departmentDto -> Objects.equals(departmentDto.getName(), departmentDto2.getName()))));
     }
 
     @Test

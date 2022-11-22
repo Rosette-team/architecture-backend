@@ -24,7 +24,7 @@ public class UserServiceTests {
     PatientMapper patientMapper;
 
     PatientDto patientDto = new PatientDto(null, "name", "surname", "patient", "password", UserRole.ROLE_PATIENT);
-    long patientId;
+    Long patientId;
 
     @BeforeAll()
     void setupPatient() {
