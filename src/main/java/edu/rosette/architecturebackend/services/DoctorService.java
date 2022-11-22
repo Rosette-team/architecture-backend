@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @AllArgsConstructor
 @Service
@@ -29,9 +30,14 @@ public class DoctorService {
         return Optional.of(doctorMapper.doctorToDoctorDto(doctor.get()));
     }
 
-    public List<DoctorDto> getDoctors(long departmentId) {
-        var doctors = doctorRepository.findAllByDepartmentId(departmentId);
-        return doctors.stream().map(doctor -> doctorMapper.doctorToDoctorDto(doctor)).toList();
+    public List<DoctorDto> getDoctors(Long departmentId) {
+        if (departmentId != null) {
+            var doctors = doctorRepository.findAllByDepartmentId(departmentId);
+            return doctors.stream().map(doctor -> doctorMapper.doctorToDoctorDto(doctor)).toList();
+        } else {
+            var doctors = doctorRepository.findAll();
+            return StreamSupport.stream(doctors.spliterator(), false).map(doctor -> doctorMapper.doctorToDoctorDto(doctor)).toList();
+        }
     }
 
     public Optional<DoctorDto> updateDoctor(long id, DoctorDto doctorDto) {

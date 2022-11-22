@@ -42,13 +42,13 @@ public class AppointmentServiceTests {
     @Autowired
     DoctorMapper doctorMapper;
 
-    long patientId;
-    long doctorId;
+    Long patientId;
+    Long doctorId;
 
     @BeforeAll()
     void setupPatientAndDoctor() {
         patientId = patientRepository.save(patientMapper.patientDtoToPatient(new PatientDto(null, "name", "surname", "patient", "password", UserRole.ROLE_PATIENT))).getId();
-        doctorId = doctorRepository.save(doctorMapper.doctorDtoToDoctor(new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, "speciality"))).getId();
+        doctorId = doctorRepository.save(doctorMapper.doctorDtoToDoctor(new DoctorDto(null, "name", "surname", "doctor", "password", UserRole.ROLE_DOCTOR, null, "speciality"))).getId();
     }
 
     @AfterAll()

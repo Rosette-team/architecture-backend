@@ -1,26 +1,48 @@
 package edu.rosette.architecturebackend.unit.services;
 
+import edu.rosette.architecturebackend.datatransfer.DepartmentDto;
 import edu.rosette.architecturebackend.datatransfer.ManagerDto;
+import edu.rosette.architecturebackend.mappers.DepartmentMapper;
 import edu.rosette.architecturebackend.mappers.ManagerMapper;
 import edu.rosette.architecturebackend.models.UserRole;
+import edu.rosette.architecturebackend.repositories.DepartmentRepository;
 import edu.rosette.architecturebackend.repositories.ManagerRepository;
 import edu.rosette.architecturebackend.services.ManagerService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Objects;
+
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringBootTest
 public class ManagerServiceTests {
     @Autowired
     ManagerService managerService;
 
     @Autowired
+    ManagerRepository managerRepository;
+
+    @Autowired
+    DepartmentRepository departmentRepository;
+
+    @Autowired
     ManagerMapper managerMapper;
 
     @Autowired
-    ManagerRepository managerRepository;
+    DepartmentMapper departmentMapper;
+
+    Long departmentId;
+
+    @BeforeAll()
+    void setupDepartment() {
+        departmentId = departmentRepository.save(departmentMapper.departmentDtoToDepartment(new DepartmentDto(null, "department"))).getId();
+    }
+
+    @AfterAll()
+    void clearDepartment() {
+        departmentRepository.deleteAll();
+    }
 
     @AfterEach
     void clearDatabase() {
@@ -29,7 +51,7 @@ public class ManagerServiceTests {
 
     @Test
     void canAddManager() {
-        var managerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER);
+        var managerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER, departmentId);
 
         var managerId = managerService.addManager(managerDto);
 
@@ -38,7 +60,7 @@ public class ManagerServiceTests {
 
     @Test
     void canGetManager() {
-        var managerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER);
+        var managerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER, departmentId);
         var managerId = managerRepository.save(managerMapper.managerDtoToManager(managerDto)).getId();
 
         var result = managerService.getManager(managerId);
@@ -48,7 +70,7 @@ public class ManagerServiceTests {
 
     @Test
     void canGetExactManager() {
-        var managerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER);
+        var managerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER, departmentId);
         var managerId = managerRepository.save(managerMapper.managerDtoToManager(managerDto)).getId();
 
         var result = managerService.getManager(managerId).orElseThrow();
@@ -59,9 +81,22 @@ public class ManagerServiceTests {
     }
 
     @Test
+    void canGetFilteredManagers() {
+        var managerDto1 = new ManagerDto(null, "name1", "surname1", "username1", "password1", UserRole.ROLE_MANAGER, departmentId);
+        var managerDto2 = new ManagerDto(null, "name2", "surname2", "username2", "password2", UserRole.ROLE_MANAGER, null);
+        managerRepository.save(managerMapper.managerDtoToManager(managerDto1));
+        managerRepository.save(managerMapper.managerDtoToManager(managerDto2));
+
+        var managers = managerService.getManagers(departmentId);
+
+        Assertions.assertTrue(managers.stream().anyMatch((managerDto -> Objects.equals(managerDto.getName(), managerDto1.getName()))));
+        Assertions.assertTrue(managers.stream().noneMatch((managerDto -> Objects.equals(managerDto.getName(), managerDto2.getName()))));
+    }
+
+    @Test
     void canUpdateManager() {
-        var oldManagerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER);
-        var newManagerDto = new ManagerDto(null, "newMame", "newSurname", "newUsername", "password", UserRole.ROLE_MANAGER);
+        var oldManagerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER, departmentId);
+        var newManagerDto = new ManagerDto(null, "newMame", "newSurname", "newUsername", "password", UserRole.ROLE_MANAGER, departmentId);
         var managerId = managerRepository.save(managerMapper.managerDtoToManager(oldManagerDto)).getId();
 
         var result = managerService.updateManager(managerId, newManagerDto);
@@ -71,8 +106,8 @@ public class ManagerServiceTests {
 
     @Test
     void canUpdateManagerCorrectly() {
-        var oldManagerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER);
-        var newManagerDto = new ManagerDto(null, "newMame", "newSurname", "newUsername", "password", UserRole.ROLE_MANAGER);
+        var oldManagerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER, departmentId);
+        var newManagerDto = new ManagerDto(null, "newMame", "newSurname", "newUsername", "password", UserRole.ROLE_MANAGER, departmentId);
         var managerId = managerRepository.save(managerMapper.managerDtoToManager(oldManagerDto)).getId();
 
         var result = managerService.updateManager(managerId, newManagerDto).orElseThrow();
@@ -84,7 +119,7 @@ public class ManagerServiceTests {
 
     @Test
     void canDeleteManager() {
-        var managerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER);
+        var managerDto = new ManagerDto(null, "name", "surname", "username", "password", UserRole.ROLE_MANAGER, departmentId);
         var managerId = managerRepository.save(managerMapper.managerDtoToManager(managerDto)).getId();
 
         managerService.deleteManager(managerId);

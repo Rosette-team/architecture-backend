@@ -32,7 +32,7 @@ public class DoctorController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getDoctors(@RequestParam long departmentId) {
+    public ResponseEntity<?> getDoctors(@RequestParam(required = false) Long departmentId) {
         var doctors = doctorService.getDoctors(departmentId);
         return new ResponseEntity<>(doctors, HttpStatus.OK);
     }

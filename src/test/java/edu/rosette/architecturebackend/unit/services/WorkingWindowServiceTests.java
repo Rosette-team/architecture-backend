@@ -33,13 +33,13 @@ public class WorkingWindowServiceTests {
     @Autowired
     DoctorMapper doctorMapper;
 
-    long firstDoctorId;
-    long secondDoctorId;
+    Long firstDoctorId;
+    Long secondDoctorId;
 
     @BeforeAll()
     void setupDoctor() {
-        firstDoctorId = doctorRepository.save(doctorMapper.doctorDtoToDoctor(new DoctorDto(null, "name", "surname", "firstDoctor", "password", UserRole.ROLE_DOCTOR, "speciality"))).getId();
-        secondDoctorId = doctorRepository.save(doctorMapper.doctorDtoToDoctor(new DoctorDto(null, "name", "surname", "secondDoctor", "password", UserRole.ROLE_DOCTOR, "speciality"))).getId();
+        firstDoctorId = doctorRepository.save(doctorMapper.doctorDtoToDoctor(new DoctorDto(null, "name", "surname", "firstDoctor", "password", UserRole.ROLE_DOCTOR, null, "speciality"))).getId();
+        secondDoctorId = doctorRepository.save(doctorMapper.doctorDtoToDoctor(new DoctorDto(null, "name", "surname", "secondDoctor", "password", UserRole.ROLE_DOCTOR, null, "speciality"))).getId();
     }
 
     @AfterAll()
