@@ -9,6 +9,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.Date;
+
 @AllArgsConstructor
 @Controller
 @RequestMapping("working-window")
@@ -24,15 +28,18 @@ public class WorkingWindowController {
 
     @GetMapping("{id}")
     public ResponseEntity<?> getWorkingWindow(@PathVariable long id) {
-        var securityContext = SecurityContextHolder.getContext();
-        var test = securityContext.getAuthentication();
-
         var workingWindow = workingWindowService.getWorkingWindow(id);
         if (workingWindow.isPresent()) {
             return new ResponseEntity<>(workingWindow.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> getWorkingWindows(@RequestParam long doctorId) {
+        var workingWindows = workingWindowService.getWorkingWindows(doctorId);
+        return new ResponseEntity<>(workingWindows, HttpStatus.OK);
     }
 
     @PutMapping("{id}")

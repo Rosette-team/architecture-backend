@@ -6,6 +6,7 @@ import edu.rosette.architecturebackend.repositories.WorkingWindowRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -26,6 +27,11 @@ public class WorkingWindowService {
             return Optional.empty();
         }
         return Optional.of(workingWindowMapper.workingWindowToWorkingWindowDto(workingWindow.get()));
+    }
+
+    public List<WorkingWindowDto> getWorkingWindows(long doctorId) {
+        var workingWindows =  workingWindowRepository.findAllByDoctorId(doctorId);
+        return workingWindows.stream().map(workingWindowMapper::workingWindowToWorkingWindowDto).toList();
     }
 
     public Optional<WorkingWindowDto> updateWorkingWindow(long id, WorkingWindowDto workingWindowDto) {

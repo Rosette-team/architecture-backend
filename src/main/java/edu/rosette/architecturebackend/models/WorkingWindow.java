@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity()
@@ -21,15 +24,17 @@ public class WorkingWindow {
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    Date beginDate;
+    LocalDate beginDate;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    Date endDate;
+    LocalDate endDate;
 
     @Column(nullable = false)
-    String periodicity;
+    DayOfWeek dayOfWeek;
 
     @Column(nullable = false)
-    Duration duration;
+    LocalTime beginTime;
+
+    @Column(nullable = false)
+    LocalTime endTime;
 }
