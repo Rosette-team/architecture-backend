@@ -15,6 +15,8 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -64,7 +66,7 @@ public class AppointmentServiceTests {
 
     @Test
     void canAddAppointment() {
-        var appointmentDto = new AppointmentDto(null, patientId, doctorId, new Date(), false, null);
+        var appointmentDto = new AppointmentDto(null, patientId, doctorId, LocalDate.now(), LocalTime.now(), false, null);
 
         var appointmentId = appointmentService.addAppointment(appointmentDto);
 
@@ -73,7 +75,7 @@ public class AppointmentServiceTests {
 
     @Test
     void canGetAppointment() {
-        var appointmentDto = new AppointmentDto(null, patientId, doctorId, new Date(), false, null);
+        var appointmentDto = new AppointmentDto(null, patientId, doctorId, LocalDate.now(), LocalTime.now(), false, null);
         var appointmentId = appointmentRepository.save(appointmentMapper.appointmentDtoToAppointment(appointmentDto)).getId();
 
         var result = appointmentService.getAppointment(appointmentId);
@@ -83,7 +85,7 @@ public class AppointmentServiceTests {
 
     @Test
     void canGetExactAppointment() {
-        var appointmentDto = new AppointmentDto(null, patientId, doctorId, new Date(), false, null);
+        var appointmentDto = new AppointmentDto(null, patientId, doctorId, LocalDate.now(), LocalTime.now(), false, null);
         var appointmentId = appointmentRepository.save(appointmentMapper.appointmentDtoToAppointment(appointmentDto)).getId();
 
         var result = appointmentService.getAppointment(appointmentId).orElseThrow();
@@ -97,8 +99,8 @@ public class AppointmentServiceTests {
 
     @Test
     void canUpdateAppointment() {
-        var oldAppointmentDto = new AppointmentDto(null, patientId, doctorId, new Date(), false, null);
-        var newAppointmentDto = new AppointmentDto(null, patientId, doctorId, new Date(), true, "https://consultation.com");
+        var oldAppointmentDto = new AppointmentDto(null, patientId, doctorId, LocalDate.now(), LocalTime.now(), false, null);
+        var newAppointmentDto = new AppointmentDto(null, patientId, doctorId, LocalDate.now(), LocalTime.now(), true, "https://consultation.com");
         var appointmentId = appointmentRepository.save(appointmentMapper.appointmentDtoToAppointment(oldAppointmentDto)).getId();
 
         var result = appointmentService.updateAppointment(appointmentId, newAppointmentDto);
@@ -108,8 +110,8 @@ public class AppointmentServiceTests {
 
     @Test
     void canUpdateAppointmentCorrectly() {
-        var oldAppointmentDto = new AppointmentDto(null, patientId, doctorId, new Date(), false, null);
-        var newAppointmentDto = new AppointmentDto(null, patientId, doctorId, new Date(), true, "https://consultation.com");
+        var oldAppointmentDto = new AppointmentDto(null, patientId, doctorId, LocalDate.now(), LocalTime.now(), false, null);
+        var newAppointmentDto = new AppointmentDto(null, patientId, doctorId, LocalDate.now(), LocalTime.now(), true, "https://consultation.com");
         var appointmentId = appointmentRepository.save(appointmentMapper.appointmentDtoToAppointment(oldAppointmentDto)).getId();
 
         var result = appointmentService.updateAppointment(appointmentId, newAppointmentDto).orElseThrow();
@@ -120,7 +122,7 @@ public class AppointmentServiceTests {
 
     @Test
     void canDeleteAppointment() {
-        var appointmentDto = new AppointmentDto(null, patientId, doctorId, new Date(), false, null);
+        var appointmentDto = new AppointmentDto(null, patientId, doctorId, LocalDate.now(), LocalTime.now(), false, null);
         var appointmentId = appointmentRepository.save(appointmentMapper.appointmentDtoToAppointment(appointmentDto)).getId();
 
         appointmentService.deleteAppointment(appointmentId);

@@ -12,7 +12,10 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -54,7 +57,7 @@ public class WorkingWindowServiceTests {
 
     @Test
     void canAddWorkingWindow() {
-        var workingWindowDto = new WorkingWindowDto(null, firstDoctorId, new Date(), new Date(), "", Duration.ZERO);
+        var workingWindowDto = new WorkingWindowDto(null, firstDoctorId, LocalDate.now(), LocalDate.now(), DayOfWeek.MONDAY, LocalTime.now(), LocalTime.now());
 
         var workingWindowId = workingWindowService.addWorkingWindow(workingWindowDto);
 
@@ -63,7 +66,7 @@ public class WorkingWindowServiceTests {
 
     @Test
     void canGetWorkingWindow() {
-        var workingWindowDto = new WorkingWindowDto(null, firstDoctorId, new Date(), new Date(), "", Duration.ZERO);
+        var workingWindowDto = new WorkingWindowDto(null, firstDoctorId, LocalDate.now(), LocalDate.now(), DayOfWeek.MONDAY, LocalTime.now(), LocalTime.now());
         var workingWindowId = workingWindowRepository.save(workingWindowMapper.workingWindowDtoToWorkingWindow(workingWindowDto)).getId();
 
         var result = workingWindowService.getWorkingWindow(workingWindowId);
@@ -73,7 +76,7 @@ public class WorkingWindowServiceTests {
 
     @Test
     void canGetExactWorkingWindow() {
-        var workingWindowDto = new WorkingWindowDto(null, firstDoctorId, new Date(), new Date(), "", Duration.ZERO);
+        var workingWindowDto = new WorkingWindowDto(null, firstDoctorId, LocalDate.now(), LocalDate.now(), DayOfWeek.MONDAY, LocalTime.now(), LocalTime.now());
         var workingWindowId = workingWindowRepository.save(workingWindowMapper.workingWindowDtoToWorkingWindow(workingWindowDto)).getId();
 
         var result = workingWindowService.getWorkingWindow(workingWindowId).orElseThrow();
@@ -83,8 +86,8 @@ public class WorkingWindowServiceTests {
 
     @Test
     void canUpdateWorkingWindow() {
-        var oldWorkingWindowDto = new WorkingWindowDto(null, firstDoctorId, new Date(), new Date(), "", Duration.ZERO);
-        var newWorkingWindowDto = new WorkingWindowDto(null, secondDoctorId, null, null, null, null);
+        var oldWorkingWindowDto = new WorkingWindowDto(null, firstDoctorId, LocalDate.now(), LocalDate.now(), DayOfWeek.MONDAY, LocalTime.now(), LocalTime.now());
+        var newWorkingWindowDto = new WorkingWindowDto(null, secondDoctorId, null, null, null, null, null);
         var workingWindowId = workingWindowRepository.save(workingWindowMapper.workingWindowDtoToWorkingWindow(oldWorkingWindowDto)).getId();
 
         var result = workingWindowService.updateWorkingWindow(workingWindowId, newWorkingWindowDto);
@@ -94,8 +97,8 @@ public class WorkingWindowServiceTests {
 
     @Test
     void canUpdateWorkingWindowCorrectly() {
-        var oldWorkingWindowDto = new WorkingWindowDto(null, firstDoctorId, new Date(), new Date(), "", Duration.ZERO);
-        var newWorkingWindowDto = new WorkingWindowDto(null, secondDoctorId, null, null, null, null);
+        var oldWorkingWindowDto = new WorkingWindowDto(null, firstDoctorId, LocalDate.now(), LocalDate.now(), DayOfWeek.MONDAY, LocalTime.now(), LocalTime.now());
+        var newWorkingWindowDto = new WorkingWindowDto(null, secondDoctorId, null, null, null, null, null);
         var workingWindowId = workingWindowRepository.save(workingWindowMapper.workingWindowDtoToWorkingWindow(oldWorkingWindowDto)).getId();
 
         var result = workingWindowService.updateWorkingWindow(workingWindowId, newWorkingWindowDto).orElseThrow();
@@ -105,7 +108,7 @@ public class WorkingWindowServiceTests {
 
     @Test
     void canDeleteWorkingWindow() {
-        var workingWindowDto = new WorkingWindowDto(null, firstDoctorId, new Date(), new Date(), "", Duration.ZERO);
+        var workingWindowDto = new WorkingWindowDto(null, firstDoctorId, LocalDate.now(), LocalDate.now(), DayOfWeek.MONDAY, LocalTime.now(), LocalTime.now());
         var workingWindowId = workingWindowRepository.save(workingWindowMapper.workingWindowDtoToWorkingWindow(workingWindowDto)).getId();
 
         workingWindowService.deleteWorkingWindow(workingWindowId);
