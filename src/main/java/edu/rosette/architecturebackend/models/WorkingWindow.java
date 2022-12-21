@@ -23,10 +23,8 @@ public class WorkingWindow {
     Doctor doctor;
 
     @Column(nullable = false)
-    //@Temporal(TemporalType.TIMESTAMP)
     LocalDate beginDate;
 
-    //@Temporal(TemporalType.TIMESTAMP)
     LocalDate endDate;
 
     @Column(nullable = false)

@@ -1,12 +1,10 @@
 package edu.rosette.architecturebackend.controllers;
 
 import edu.rosette.architecturebackend.datatransfer.PatientDto;
-import edu.rosette.architecturebackend.models.Patient;
 import edu.rosette.architecturebackend.services.PatientService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

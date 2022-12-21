@@ -2,10 +2,13 @@ package edu.rosette.architecturebackend.controllers;
 
 import edu.rosette.architecturebackend.datatransfer.AppointmentDto;
 import edu.rosette.architecturebackend.services.AppointmentService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @Controller
 @RequestMapping(value = "appointment")
@@ -30,6 +33,12 @@ public class AppointmentController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> getAppointments(@RequestParam long doctorId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        var appointments = appointmentService.getAppointments(doctorId, date);
+        return new ResponseEntity<>(appointments, HttpStatus.OK);
     }
 
     @PutMapping("{id}")

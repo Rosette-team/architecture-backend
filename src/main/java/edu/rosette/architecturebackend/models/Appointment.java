@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -22,8 +24,10 @@ public class Appointment {
     Doctor doctor;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    Date date;
+    LocalDate date;
+
+    @Column(nullable = false)
+    LocalTime time;
 
     @Column(nullable = false)
     Boolean online;

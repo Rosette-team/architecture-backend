@@ -6,7 +6,9 @@ import edu.rosette.architecturebackend.repositories.AppointmentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
+import java.util.List;
 
 @AllArgsConstructor
 @Service
@@ -27,6 +29,11 @@ public class AppointmentService {
             return Optional.empty();
         }
         return Optional.of(appointmentMapper.appointmentToAppointmentDto(appointment.get()));
+    }
+
+    public List<AppointmentDto> getAppointments(long doctorId, LocalDate date) {
+        var appointments = appointmentRepository.findAllByDoctorIdAndDate(doctorId, date);
+        return appointments.stream().map(appointmentMapper::appointmentToAppointmentDto).toList();
     }
 
     public Optional<AppointmentDto> updateAppointment(long id, AppointmentDto appointmentDto) {
